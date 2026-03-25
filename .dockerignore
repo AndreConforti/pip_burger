@@ -1,0 +1,25 @@
+# Ignora arquivos do Git
+.git
+.gitignore
+
+# Ignora ambientes virtuais locais (se você criar algum fora do docker)
+venv/
+.venv/
+env/
+
+# Ignora arquivos temporários do Python
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignora bancos de dados locais de teste (SQLite)
+*.sqlite3
+
+# Ignora arquivos de configuração do editor (VS Code, PyCharm)
+.vscode/
+.idea/
+
+# Ignora logs e arquivos temporários do sistema
+*.log
+.DS_Store

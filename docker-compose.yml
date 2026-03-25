@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=lanchonete_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminpass
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DB_HOST=db
+      - DB_NAME=lanchonete_db
+      - DB_USER=admin
+      - DB_PASS=adminpass
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
