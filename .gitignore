@@ -1,19 +1,32 @@
-# Python
+# --- Python ---
 __pycache__/
 *.py[cod]
 *$py.class
-.venv/
+.pytest_cache/
+.mypy_cache/
 venv/
-
-# Django
-db.sqlite3
-media/
-staticfiles/
-
-# Docker
+env/
 .env
 
-# Ideias/Sistemas
+# --- Django ---
+db.sqlite3
+db.sqlite3-journal
+media/
+static/
+staticfiles/
+
+# --- Docker ---
+.docker/
+# Nota: NÃO ignore o docker-compose.yml nem o Dockerfile
+
+# --- Ambiente e Segredos (CRÍTICO) ---
+.python-version
 .vscode/
 .idea/
+*.log
+.env.local
+.env.*.local
+
+# --- Sistema Operacional ---
 .DS_Store
+Thumbs.db
