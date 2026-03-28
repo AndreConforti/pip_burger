@@ -13,20 +13,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Read .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
 # Permitir que o sistema seja acessado por qualquer IP na intranet da lanchonete
 ALLOWED_HOSTS = ['*']
 
-
+# Confiança para o proxy do GitHub Codespaces
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.github.dev',
+    'https://*.app.github.dev',
+    'https://localhost:8000',
+    'http://localhost:8000',
+    'https://127.0.0.1:8000',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    ## My apps
+    'apps.inventory',
 ]
 
 MIDDLEWARE = [
@@ -67,10 +70,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': env.db(),
