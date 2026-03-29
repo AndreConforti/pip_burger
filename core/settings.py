@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     ## My apps
     'apps.inventory',
     'apps.menu',
+    'apps.tables',
 ]
 
 MIDDLEWARE = [
