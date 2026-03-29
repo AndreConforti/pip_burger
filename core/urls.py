@@ -2,9 +2,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from apps.menu.views import test_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('test/', test_view, name='test_ui'),
 ]
 
 if settings.DEBUG:
