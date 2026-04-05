@@ -44,3 +44,4 @@ class AccountPayableAdmin(admin.ModelAdmin):
     list_display = ('description', 'amount', 'due_date', 'status', 'supplier')
     list_filter = ('status', 'due_date')
     search_fields = ('description',)
+
