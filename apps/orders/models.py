@@ -7,8 +7,9 @@ from apps.menu.models import Product
 
 class Order(models.Model):
     """
-    Representa uma comanda ou pedido vinculado a uma mesa.
-    Uma mesa pode ter múltiplos pedidos ativos (rateio/comandas individuais).
+    Gerencia o consumo de um cliente ou grupo em uma mesa.
+    Ao ser salva com status 'open', garante que a mesa vinculada 
+    tenha seu status atualizado para 'occupied'.
     """
     STATUS_CHOICES = [
         ('open', 'Aberta'),
@@ -84,6 +85,17 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Pedido"
         verbose_name_plural = "Pedidos"
+
+    def save(self, *args, **kwargs):
+        """
+        Sobrescreve o método save para garantir a integridade do status da mesa.
+        """
+        # Se a comanda está sendo aberta, marca a mesa como ocupada
+        if self.status == 'open':
+            self.table.status = 'occupied'
+            self.table.save()
+        
+        super().save(*args, **kwargs)
 
 
 class OrderItem(models.Model):
