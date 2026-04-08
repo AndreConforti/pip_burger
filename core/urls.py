@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/', test_view, name='test_ui'),
     path('tables/', include('apps.tables.urls')),
+    path('orders/', include('apps.orders.urls')),
 ]
 
 if settings.DEBUG:
