@@ -9,6 +9,7 @@ urlpatterns = [
     path('test/', test_view, name='test_ui'),
     path('tables/', include('apps.tables.urls')),
     path('orders/', include('apps.orders.urls')),
+    path('inventory/', include('apps.inventory.urls')),
 ]
 
 if settings.DEBUG:

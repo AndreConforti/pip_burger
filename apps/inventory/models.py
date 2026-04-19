@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Supplier(models.Model):
     """
     Representa uma entidade externa que fornece insumos ou serviços para a lanchonete.
@@ -18,6 +19,14 @@ class Supplier(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Ingredient(models.Model):
     """
@@ -43,15 +52,24 @@ class Ingredient(models.Model):
         Supplier, 
         on_delete=models.SET_NULL, 
         null=True, 
+        blank=True,
         related_name='ingredients'
     )
     unit = models.CharField(max_length=2, choices=UNIT_CHOICES, default='KG')
     current_stock = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     minimum_stock = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     cost_price = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.ForeignKey(
+        Category, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='ingredients'
+    )
 
     def __str__(self):
         return f"{self.name} ({self.current_stock} {self.unit})"
+
 
 class AccountPayable(models.Model):
     """
