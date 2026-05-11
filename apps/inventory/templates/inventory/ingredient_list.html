@@ -23,8 +23,15 @@
                 <div class="col-md-5">
                     <div class="form-floating">
                         <input type="text" name="search" id="id_search" class="form-control" 
-                               placeholder="Ex: Pão..." value="{{ request.GET.search }}" autocomplete="off">
-                        <label for="id_search">Buscar ingrediente (digite para filtrar...)</label>
+                            placeholder="Ex: Pão..." value="{{ request.GET.search }}" 
+                            autocomplete="off" list="ingredients-options">
+                        <label for="id_search">Buscar ingrediente...</label>
+                        
+                        <datalist id="ingredients-options">
+                            {% for name in all_ingredient_names %}
+                                <option value="{{ name }}">
+                            {% endfor %}
+                        </datalist>
                     </div>
                 </div>
 

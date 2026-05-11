@@ -4,11 +4,14 @@ from .models import Ingredient
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
-        fields = ['name', 'supplier', 'unit', 'current_stock', 'minimum_stock', 'cost_price']
+        fields = ['name', 'category', 'supplier', 'unit', 'current_stock', 'minimum_stock', 'cost_price']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Nome do Insumo'
+            }),
+            'category': forms.Select(attrs={
+                'class': 'form-select'
             }),
             'supplier': forms.Select(attrs={
                 'class': 'form-select',

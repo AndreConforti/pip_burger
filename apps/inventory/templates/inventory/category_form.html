@@ -1,0 +1,40 @@
+{% extends 'base_home.html' %}
+
+{% block title %}{{ object|yesno:"Editar,Nova" }} Categoria - Pip Burger{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold text-center">
+                        {{ object|yesno:"Editar Categoria,Cadastrar Nova Categoria" }}
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="form-floating mb-4">
+                            <input type="text" name="name" id="id_name" class="form-control" 
+                                   placeholder="Ex: Pães" value="{{ form.name.value|default:'' }}" required>
+                            <label for="id_name">Nome da Categoria</label>
+                            {% if form.name.errors %}
+                                <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'inventory:category_list' %}" class="btn btn-light flex-grow-1">Cancelar</a>
+                            <button type="submit" class="btn btn-primary flex-grow-1 shadow-sm">
+                                <i class="bi bi-check2-circle me-1"></i>Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

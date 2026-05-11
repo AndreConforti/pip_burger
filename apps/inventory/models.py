@@ -22,10 +22,15 @@ class Supplier(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=100, unique=True, verbose_name="Nome da Categoria")
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
+        ordering = ['name']
 
 
 class Ingredient(models.Model):

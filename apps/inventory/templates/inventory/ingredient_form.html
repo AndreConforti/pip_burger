@@ -25,7 +25,11 @@
                                     <label for="{{ form.name.id_for_label }}">Nome do Insumo</label>
                                 </div>
                             </div>
-
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    {{ form.category }} <label for="{{ form.category.id_for_label }}">Categoria</label>
+                                </div>
+                            </div>
                             <div class="col-md-8">
                                 <div class="form-floating mb-3">
                                     {{ form.supplier }}
