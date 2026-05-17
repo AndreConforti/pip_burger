@@ -11,4 +11,6 @@ urlpatterns = [
     path('categories/add/', views.CategoryCreateView.as_view(), name='category_add'),
     path('categories/<int:pk>/edit/', views.CategoryUpdateView.as_view(), name='category_edit'),
     path('categories/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category_delete'),
+    path('movement/add/', views.StockMovementCreateView.as_view(), name='stock_movement_add'),
+    path('movements/', views.StockMovementListView.as_view(), name='stock_movement_list'),
 ]

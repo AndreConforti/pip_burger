@@ -1,10 +1,11 @@
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import F
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .models import Ingredient, Category
-from .forms import IngredientForm
+from .models import Ingredient, Category, StockMovement
+from .forms import IngredientForm, StockMovementForm
 
 
 def ingredient_list_view(request):
@@ -80,3 +81,49 @@ class CategoryDeleteView(DeleteView):
     # Adicione este método para evitar que o Django procure o template .html
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+
+class StockMovementCreateView(CreateView):
+    """
+    Processa o registro de uma nova movimentação de estoque.
+    
+    A view valida o formulário e executa uma operação atômica no banco:
+    ajusta o saldo atual do ingrediente (somando para entradas 'IN' 
+    ou subtraindo para saídas 'OUT') e grava o histórico.
+    """
+    model = StockMovement
+    form_class = StockMovementForm
+    template_name = 'inventory/stock_movement_form.html'
+    success_url = reverse_lazy('inventory:ingredient_list')
+
+    def form_valid(self, form):
+        movement = form.save(commit=False)
+        ingredient = movement.ingredient
+
+        # Garante segurança se dois acessos tentarem mudar o estoque ao mesmo tempo
+        with transaction.atomic():
+            if movement.movement_type == 'IN':
+                ingredient.current_stock += movement.quantity
+            elif movement.movement_type == 'OUT':
+                # Opcional: Você pode validar aqui se a perda não deixa o estoque negativo
+                ingredient.current_stock -= movement.quantity
+            
+            # Salva o ingrediente atualizado e a movimentação
+            ingredient.save()
+            movement.save()
+
+        return super().form_valid(form)
+
+class StockMovementListView(ListView):
+    """
+    Exibe o histórico completo de movimentações de estoque.
+    
+    Lista todas as entradas e saídas ordenadas da mais recente para a mais antiga,
+    utilizando paginação para garantir a performance da página.
+    """
+    model = StockMovement
+    template_name = 'inventory/stock_movement_list.html'
+    context_object_name = 'movements'
+    paginate_by = 15
+    
+    def get_queryset(self):
+        return StockMovement.objects.all().select_related('ingredient').order_by('-date')

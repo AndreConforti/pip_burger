@@ -50,9 +50,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    {{ form.current_stock }}
-                                    <label for="{{ form.current_stock.id_for_label }}">Estoque Atual</label>
+                                <div class="form-control bg-light text-muted">
+                                    <strong>Saldo Atual:</strong> {{ instance.current_stock|default:"0.00" }} {{ instance.get_unit_display }}
                                 </div>
                             </div>
                             <div class="col-md-4">

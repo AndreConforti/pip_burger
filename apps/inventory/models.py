@@ -107,3 +107,50 @@ class AccountPayable(models.Model):
 
     def __str__(self):
         return f"{self.description} - R$ {self.amount} ({self.due_date})"
+
+class StockMovement(models.Model):
+    """
+    Registra o histórico de todas as entradas e saídas de insumos do estoque.
+    
+    O tipo de movimentação define se o estoque do ingrediente será somado (entrada)
+    ou subtraído (saída/perda). O campo 'quantity' armazena o valor movimentado
+    e 'reason' ajuda a identificar o motivo daquela ação.
+    """
+    MOVEMENT_TYPES = [
+        ('IN', 'Entrada (Compra/Ajuste)'),
+        ('OUT', 'Saída (Perda/Desperdício)'),
+    ]
+
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name='movements',
+        verbose_name="Ingrediente"
+    )
+    movement_type = models.CharField(
+        max_length=3,
+        choices=MOVEMENT_TYPES,
+        verbose_name="Tipo de Movimentação"
+    )
+    quantity = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Quantidade"
+    )
+    reason = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Motivo/Justificativa"
+    )
+    date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Data da Movimentação"
+    )
+
+    def __str__(self):
+        return f"{self.get_movement_type_display()} - {self.ingredient.name} ({self.quantity})"
+
+    class Meta:
+        verbose_name = "Movimentação de Estoque"
+        verbose_name_plural = "Movimentações de Estoque"
+        ordering = ['-date']

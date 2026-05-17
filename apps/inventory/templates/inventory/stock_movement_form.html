@@ -1,0 +1,65 @@
+{% extends 'base_home.html' %}
+
+{% block title %}Movimentar Estoque - Pip Burger{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold text-center text-dark">
+                        <i class="bi bi-arrow-left-right me-2 text-primary"></i>Movimentar Estoque
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="form-floating mb-3">
+                            {{ form.ingredient }}
+                            <label for="{{ form.ingredient.id_for_label }}">Ingrediente/Insumo</label>
+                            {% if form.ingredient.errors %}
+                                <div class="text-danger small mt-1">{{ form.ingredient.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form.movement_type }}
+                            <label for="{{ form.movement_type.id_for_label }}">Tipo de Operação</label>
+                            {% if form.movement_type.errors %}
+                                <div class="text-danger small mt-1">{{ form.movement_type.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form.quantity }}
+                            <label for="{{ form.quantity.id_for_label }}">Quantidade</label>
+                            {% if form.quantity.errors %}
+                                <div class="text-danger small mt-1">{{ form.quantity.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            {{ form.reason }}
+                            <label for="{{ form.reason.id_for_label }}">Motivo / Justificativa</label>
+                            {% if form.reason.errors %}
+                                <div class="text-danger small mt-1">{{ form.reason.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'inventory:ingredient_list' %}" class="btn btn-light flex-grow-1">
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary flex-grow-1 shadow-sm">
+                                <i class="bi bi-check2-circle me-1"></i>Confirmar Ajuste
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
